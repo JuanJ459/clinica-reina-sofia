@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Registro de Usuario</title>
+        <!--CDN Font awesome -->
+        <link rel='stylesheet' href="{{ url_for('static', filename='/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" >
+        <script src="{{ url_for('static', filename='js/validacion.js') }}"> </script>
+    </head>
+    <body>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <a href="/index">Inicio</a>
+        <figure>
+            <img src="{{ url_for('static', filename='img/logo_reina.png') }}" alt="Logo" class="logo"/>
+        </figure>
+         
+    
+        <center>
+        <section>
+            <h1>REGISTRO DE USUARIOS</h1>
+        </section>
+        <br>
+        <section>
+            <p>Para realizar tu registro y obtener tu clave virtual diligencia los siguientes datos:</p>
+        </section>
+        </center>
+        <br>
+        <br>
+        <main>
+        <center>
+            <form action="" method="post" onsubmit="constraseña();" id="form" onsubmit="return validarPassword2();" onsubmit="return validarEmail();">
+                
+                {{ form.tipo_usuario.label }}
+                <br>
+                {{ form.tipo_usuario }}  
+                <br>
+                <br>
+
+            
+                {{ form.tipo_id.label }}
+                <br>
+                {{ form.tipo_id }}
+                <br>
+                <br>
+
+                {{ form.no_id.label }}
+                <br>
+                {{ form.no_id(placeholder="Escribe No. de ID") }}
+                <br>
+                <br>
+
+                {{form.usuario.label }}
+                <br>
+                {{form.usuario(placeholder="Escribe tu nombre") }}
+                <br>
+                <br>
+
+                {{form.email. label}}
+                <br>
+                {{form.email(placeholder=" Escribe tu Email") }}
+                <br>
+                <br>
+
+                <div>
+                    <label for="conEmail">Confirmación correo electronico</label>
+                    <br>
+                    <input type="email" name="conEmail" id="conEmail" placeholder="Escribe tu email">
+                </div>
+                <br>
+
+                {{form.password.label }}
+                <br>
+                {{form.password(placeholder="Escribe tu contraseña")}}
+                <img src="{{ url_for('static', filename='img/view.png') }}" alt="Ojito" onmouseover="mostrarPassword();" onmouseout="ocultarPassword();" class="ojo">
+                <br>
+
+                <br>
+                <div>
+                    <label for="conPassword">Confirmación contraseña</label>
+                    <br>
+                    <input type="password" name="password" id="conPassword" class=conPassword placeholder="Escribe Tu Contraseña">
+                    <img src="{{ url_for('static', filename='img/view.png') }}" alt="Ojito" onmouseover="mostrarPassword2();" onmouseout="ocultarPassword2();" class="ojo">
+                </div>
+                <br>
+
+                <div>
+                    <input type="checkbox" name="confirmar">
+                    <label for="confirmar" class="checkbox">He leído y aceptado la política de tratamiento de datos</label>
+                </div>
+
+                <div>
+                    <input type="checkbox" name="confirmar2">
+                    <label for="confirmar2" class="checkbox">He leído y aceptado los términos y condiciones de uso</label>
+                </div>
+                <br>
+
+
+                {{form.registro}}
+                
+
+
+            </form>
+        </center>
+        </main>
+        
+    </body>
+</html>

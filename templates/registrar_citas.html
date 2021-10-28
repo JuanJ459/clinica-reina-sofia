@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Regitrar Cita</title>
+    <script src="{{ url_for('static', filename='js/validacion.js') }}"> </script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" >
+
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <a href="/index">Inicio</a>
+    <figure>
+        <img src="{{ url_for('static', filename='img/logo_reina.png') }}" alt="Logo" class="logo"/>
+    </figure>
+    <center>
+        <section>
+            <h1>REGISTRO DE CITAS</h1>
+        </section>
+        <br>
+        <section>
+            <p>Para crear tu cita por favor llena el siguiente formulario:</p>
+        </section>
+        <br>
+        <br>
+        <main>
+            <form action=" " method="post" onsubmit="constraseña();" id="form">
+                {{form.id_paciente.label}}
+                <br>
+                {{form.id_paciente}}
+                <br>
+                <br>
+                {{form.motivo.label}}
+                <br>
+                {{form.motivo}}
+                <br>
+                <br>
+                {{form.descripcion.label}}
+                <br>
+                {{form.descripcion}}
+                <br>
+                <br>
+                {{form.date.label}}
+                <br>
+                {{form.date}}
+                <br>
+                <br>
+                {{form.start_time.label}}
+                <br>
+                {{form.start_time}}
+                <br>
+                <br>
+                {{form.end_time.label}}
+                <br>
+                {{form.end_time}}
+                <br>
+                <br>
+                {{form.estado.label}}
+                <br>
+                {{form.estado}}
+                <br>
+                <br>
+                {{form.id_medico.label}}
+                <br>
+                {{form.id_medico}}
+                <br>
+                <br>
+                {{form.direccion.label}}
+                <br>
+                {{form.direccion}}
+                <br>
+                <br>
+                {{form.ciudad.label}}
+                <br>
+                {{form.ciudad}}
+                <br>
+                <br>
+                {{form.celular.label}}
+                <br>
+                {{form.celular}}
+                <br>
+                <br>
+                {{form.vez.label}}
+                <br>
+                {{form.vez}}
+                <br>
+                <br>
+                {{form.especialidad.label}}
+                <br>
+                {{form.especialidad}}
+                <br>
+                <br>
+                {{form.comentarios.label}}
+                <br>
+                {{form.comentarios}}
+                <br>
+                <br>
+                {{form.valoracion.label}}
+                <br>
+                {{form.valoracion}}
+                <br>
+                <br>
+                {{form.registro_cita}}
+            </form>
+        </main>
+    </center>
+
+
+    
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>registro de medicos</title>
+        <!--CDN Font awesome -->
+        <link rel='stylesheet' href="{{ url_for('static', filename='/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" >
+        <script src="{{ url_for('static', filename='js/validacion.js') }}"> </script>
+    </head>
+    <body>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <a href="/administrador">Inicio</a>
+        <figure>
+            <img src="{{ url_for('static', filename='img/logo_reina.png') }}" alt="Logo" class="logo"/>
+        </figure>
+         
+    
+        <center>
+        <section>
+            <h1>REGISTRO DE MEDICOS</h1>
+        </section>
+        <br>
+        <section>
+            <p>Para realizar tu registro y obtener tu clave virtual diligencia los siguientes datos:</p>
+        </section>
+        </center>
+        <br>
+        <br>
+        <main>
+        <center>
+            <form action="" method="post">
+                
+              {{form.nombre.label}}  
+              <br>
+              {{form.nombre}}
+              <br>
+              <br>
+              {{form.t_id_login.label}}
+              <br>
+              {{form.t_id_login}}
+              <br>
+              <br>
+              {{form.no_id_login.label}}
+              <br>
+              {{form.no_id_login}}
+              <br>
+              <br>
+              {{form.email.label}}
+              <br>
+              {{form.email(placeholder=" Escribir Email") }}
+              <br>
+              <br>
+              {{form.password.label}}
+              <br>
+              {{form.password}}  
+              <br>
+              <br>
+              {{form.especialidad.label}}
+              <br>
+              {{form.especialidad}}
+              <br>
+              <br>
+              {{form.registro}}
+
+
+
+            </form>
+        </center>
+        </main>
+        
+    </body>
+</html>

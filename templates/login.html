@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}" type="text/css" >
+    <script src="{{ url_for('static', filename='js/validacion.js') }}"> </script>
+</head>
+<body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="flashes">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+    <a href="/index">Inicio</a>
+
+        <figure>
+            <img src="{{ url_for('static', filename='img/logo_reina.png') }}" alt="Logo" class="logo"/>
+        </figure>
+    <center>
+    <h1>Inicio de Sesión</h1>
+    <main>
+        <form action="" method="post">
+            {{ form.t_usuario_login.label }}
+            {{ form.t_usuario_login.label }}
+            <br>
+            {{ form.t_usuario_login }}
+            <br>
+            <br>
+
+            {{ form.t_id_login.label }}
+            <br>
+            {{ form.t_id_login }}
+            <br>
+            <br>
+                
+            {{ form.no_id_login.label }}
+            <br>
+            {{ form.no_id_login(placeholder="Escribe No. de ID") }}
+            <br>
+            <br>
+            {{ form.password_login.label }}
+            <br>
+            {{ form.password_login(placeholder="Escribe tu contraseña") }}
+            <img src="{{ url_for('static', filename='img/view.png') }}" alt="Ojito" onmouseover="mostrarPassword();" onmouseout="ocultarPassword();" class="ojo">
+            <br>
+            <br>
+                
+            {{ form.ingresar_login(id="ingresar_login") }}
+
+            <button class="button"><a href="/registro_usuario">Registrate</a></button>
+            
+        </form>
+    </main>
+    <p>¿Has olvidado tu contraseña?</p>
+    </center>
+</body>
+
+</html>
+</html>

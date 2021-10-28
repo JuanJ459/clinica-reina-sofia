@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <script src="https://kit.fontawesome.com/e809efb974.js" crossorigin="anonymous"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/static/js/main.js"></script>
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+
+<div class="container-grid">
+    <div class="contenedor-menu cointainer1">
+        <a href="#" class="btn-menu"> Dashboard <i class="icono fas fa-bars"></i></a>
+        <ul class="menu">
+            <!-- <li><a href="#" ><i class="fas fa-bars"> </i> Inicio</a></li> -->
+            <li><a href="/resultado-busqueda"><i class="icono izquierda fas fa-clinic-medical"></i>Superadministrador</a></li>
+            <li class="activado"><a href="#"> <i class="icono izquierda fas fa-notes-medical"></i> Gestionar Citas <i
+                        class="icono derecha fas fa-chevron-down"></i></a>
+                <ul>
+                    <li><a href="/resultado-busqueda">Crear Cita</a></li>
+                    <li><a href="/resultado-busqueda">Modificar Cita</a></li>
+                    <li><a href="/resultado-busqueda">Eliminar Cita</a></li>
+                    <li><a href="/resultado-busqueda">Listar Citas</a></li>
+                </ul>
+            </li>
+            <li class="activado"><a href="/resultado-busqueda"> <i class="icono izquierda fas fa-user-md"></i> Gestionar Medicos <i
+                        class="icono derecha fas fa-chevron-down"></i></a>
+                <ul>
+                    <li><a href="/resultado-busqueda">Añadir Medico</a></li>
+                    <li><a href="/resultado-busqueda">Modificar datos médico</a></li>
+                    <li><a href="/resultado-busqueda">Eliminar Médico</a></li>
+
+                </ul>
+
+            </li>
+            <li class="activado"><a href="/resultado-busqueda"> <i class="icono izquierda fas fa-procedures"></i> Gestionar Pacientes <i
+                        class="icono derecha fas fa-chevron-down"></i></a>
+                <ul>
+                    <li><a href="/resultado-busqueda">Agregar Pacientes</a></li>
+                    <li><a href="/resultado-busqueda">Modificar datos paciente</a></li>
+                    <li><a href="/resultado-busqueda">Eliminar Paciente</a></li>
+                    <li><a href="/resultado-busqueda">Listar Citas</a></li>
+                </ul>
+            </li>
+            <li class="activado"><a href="/resultado-busqueda"> <i class="icono izquierda fas fa-book-medical"></i> Gestionar Historia
+                    Clínica <i class="icono derecha fas fa-chevron-down"></i></a>
+                <ul>
+                    <li><a href="/resultado-busqueda">Crear historia clinica</a></li>
+                    <li><a href="/resultado-busqueda">Modificar historia clinica</a></li>
+                    <li><a href="/resultado-busqueda">Borrar historia clinica</a></li>
+
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <div class="container2">
+        
+        <div  class="segundo">
+            <h1>Gestionar Citas</h1>
+            <button><a href="/listar-citas">Listar Citas</a></button>
+            <button><a href="/registrar-cita">Agregar Cita</a></button>
+            <button><a href="/actualizar-citas">Modificar Cita</a></button>
+            <button><a href="/borrar-citas">Borrar Cita</a></button>
+        </div>
+        <div class="segundo">
+            <h1>Gestionar Pacientes</h1>
+            <button><a href="/listar-pacientes">Listar</a></button>
+            <button><a href="/registro_usuario">Agregar</a></button>
+            <button><a href="/actualizar-paciente">Modificar</a></button>
+            <button><a href="/borrar-pacientes">Borrar</a></button>
+        </div>
+        <div class="segundo">
+            <h1>Gestionar Medicos</h1>
+            <button><a href="/listar-medicos">Listar</a></button>
+            <button><a href="/registro_medico">Agregar</a></button>
+            <button><a href="/actualizar-medico">Modificar</a></button>
+            <button><a href="/borrar-medicos">Borrar</a></button>
+        </div>
+        <div class="segundo">
+            <h1>Historial Clinico</h1>
+            <button><a href="/listar-historial">Listar</a></button><!--falta-->
+            <button><a href="/registrar-cita">Agregar</a></button><!--falta-->
+            <button><a href="/listar-citas">Modificar</a></button><!--falta-->
+            <button><a href="/borrar-historial">Borrar</a></button><!--falta-->
+        </div>
+        
+    </div>
+
+</div>
+</body>
+
+</html>

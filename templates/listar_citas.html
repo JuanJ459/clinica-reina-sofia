@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Citas</title>
+    <link rel="stylesheet" href="/static/css/detalle_cita.css" type="text/css">
+
+</head>
+<body>
+    <figure>
+        <img src="/static/img/logo_reina.png" alt="Logo" class="logo"/>
+    </figure>
+
+    <center>
+    <br>
+    <h1>Lista Total Citas</h1>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    </center>
+        <center>
+        <main>
+            <table id="tabel" border="1"> 
+                <tbody>
+                <tr> 
+                    <td width="2">Id</td>                 
+                    <td width="2">Motivo</td> 
+                    <td width="2">Descripción</td> 
+                    <td width="2">Fecha</td> 
+                    <td width="2">Hora Entrada</td>                 
+                    <td width="2">Hora Salida</td> 
+                    <td width="2">Estado</td> 
+                    <td width="2">ID-Paciente</td> 
+                    <td width="2">ID-Medico</td>                 
+                    <td width="2">Dirección</td> 
+                    <td width="2">Ciudad</td> 
+                    <td width="2">Celular</td> 
+                    <td width="2">Primera Cita</td>                 
+                    <td width="2">Comentarios</td> 
+                    <td width="2">Valoración</td> 
+
+                </tr> 
+                {% for pro in citas %}
+                    <tr>
+                        <td width="2">{% print(pro[0]) %}</td> 
+                        <td width="2">{% print(pro[1]) %}</td> 
+                        <td width="2">{% print(pro[2]) %}</td>  
+                        <td width="2">{% print(pro[3]) %}</td>
+                        <td width="2">{% print(pro[4]) %}</td> 
+                        <td width="2">{% print(pro[5]) %}</td> 
+                        <td width="2">{% print(pro[6]) %}</td>  
+                        <td width="2">{% print(pro[7]) %}</td>
+                        <td width="2">{% print(pro[8]) %}</td> 
+                        <td width="2">{% print(pro[9]) %}</td> 
+                        <td width="2">{% print(pro[10]) %}</td>  
+                        <td width="2">{% print(pro[11]) %}</td>
+                        <td width="2">{% print(pro[12]) %}</td> 
+                        <td width="2">{% print(pro[13]) %}</td> 
+                        <td width="2">{% print(pro[14]) %}</td>  
+                        
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </main>
+        </center>
+
+</body>
+</html>
