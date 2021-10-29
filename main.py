@@ -22,34 +22,22 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 #app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
 
-#funciones 
-
-def sql_connection():
-    try:
-        conn = sqlite3.connect('dbClinica.db')
-        print("¡Conexión OK!")
-        return conn
-    except Error:
-        print(Error)
-
-
-
 def login_required(view):
     @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
     def wrapped_view(**kwargs):
-        if (g.user_medico is None) and (g.user is None):
+        if (g.user_medico is None) and (g.user is None) and (g.user_admin is None):
             return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
         return view( **kwargs )
     return wrapped_view
 
-def login_required_admin(view):
-    @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
-    def wrapped_viewp(**kwargsp):
-        print("hola")
-        if g.user_admin is None:
-            return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
-        return view( **kwargsp )
-    return wrapped_viewp
+# def login_required_admin(view): #no funciona en servidores o python everywhere
+#    @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
+#    def wrapped_viewp(**kwargsp):
+#        print("hola")
+#        if g.user_admin is None:
+#            return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
+#        return view( **kwargsp )
+#    return wrapped_viewp
 
 @app.before_request
 def cargar_paciente_registrado():
@@ -104,7 +92,7 @@ def index():
 @app.route('/detalle-cita/')
 @app.route('/detalle-cita/<int:id>/')
 @app.route('/login/perfil/detalle-cita/<int:id>/')
-#@login_required or login_required_admin
+@login_required
 def detalle_cita(id=0):
     form = Detalle_cita( request.form )
     try:
@@ -134,7 +122,7 @@ def detalle_cita(id=0):
 
 @app.route('/login/perfil/<int:id>/')
 @app.route('/perfil/<int:id>/')
-#@login_required
+@login_required
 def perfil(id=0):
     medicos = sql_select_medicos()
     pacientes = sql_select_pacientes()
@@ -316,49 +304,49 @@ def registro_usuario():
 
 @app.route('/login/administrador/', methods=['GET','POST'])
 @app.route('/administrador/', methods=['GET','POST'])
-@login_required_admin
+@login_required
 def administrador():
     return render_template('dashboard.html')
 
 @app.route('/lista-citas/')
-# @login_required_admin
+@login_required
 def citas():
     citas = sql_select_citas()
     return render_template('listar_citas.html', citas=citas)    
     
 
 @app.route('/resultado-busqueda/<int:id>/', methods=['GET', 'POST'])
-# @login_required_admin
+@login_required
 def resultado(id=0):
     return render_template('Resultadodebusqueda.html')
 
 @app.route('/listar-citas')
-# @login_required_admin
+@login_required
 def listarCitas():
     citas = select_citas_completo()
     return render_template('Listar_citas.html', citas = citas)
 
 @app.route('/listar-pacientes')
-# @login_required_admin
+@login_required
 def listarPacientes():
     pacientes = select_pacientes_completo()
     return render_template('listar_pacientes.html', pacientes = pacientes)
 
 @app.route('/listar-medicos')
-# @login_required_admin
+@login_required
 def listarMedicos():
     medicos = sql_select_medicos()
     return render_template('Listar_medico.html', medicos = medicos)
 
 @app.route('/listar-historial')
-# @login_required_admin
+@login_required
 def listarhistorial():
     historias = select_historial_completo()
     return render_template('Listar_historial.html', historias = historias)
 
 
 @app.route('/registro_medico/', methods=['GET','POST'])
-#@login_required_admin
+@login_required
 def registro_medico():
     form = Registro_medicos( request.form )
     try:
@@ -414,7 +402,7 @@ def registro_medico():
 
 
 @app.route('/actualizar-medico/', methods=['GET','POST','PUT'])
-# @login_required_admin
+@login_required
 def actualizar_medico():
     form = Registro_medicos( request.form )
     try:
@@ -437,7 +425,7 @@ def actualizar_medico():
         return render_template('actualizar_medico.html', form=form)
 
 @app.route('/actualizar-paciente/', methods=['GET','POST','PUT'])
-# @login_required_admin
+@login_required
 def edit_usuario():
     form = Registro_usuario( request.form )
     try:
@@ -460,7 +448,7 @@ def edit_usuario():
         return render_template('actualizar_paciente.html')
 
 @app.route('/actualizar-citas/', methods=['GET','POST'])
-# @login_required_admin
+@login_required
 def actualizar_citas():
     form = Registrar_cita( request.form )
     if request.method == 'POST':
@@ -484,7 +472,7 @@ def actualizar_citas():
     return render_template('registrar_citas.html', form=form)
 
 @app.route('/borrar-medicos/', methods=['GET','POST'])
-# @login_required_admin
+@login_required
 def borrar_medicos():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -495,7 +483,7 @@ def borrar_medicos():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-pacientes/', methods=['GET','POST'])
-# @login_required_admin
+@login_required
 def borrar_pacientes():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -506,7 +494,7 @@ def borrar_pacientes():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-citas/', methods=['GET','POST'])
-# @login_required_admin
+@login_required
 def borrar_citas():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -523,7 +511,7 @@ def logout():
 
 @app.route('/buscador-citas/<int:id>/', methods=['GET','POST'])
 @app.route('/buscador-citas', methods=['GET','POST'])
-# @login_required or login_required_admin
+#@login_required or login_required_admin
 def buscador_citas(id=0):
     citas = sql_citas_id()
     lista_citas = [ cita for cita in citas if cita['ID_Medico'] == id ]
@@ -548,7 +536,7 @@ def method_name(id=0):
         return render_template('historial.html', lista_historias = lista_historias, lista_citas = lista_citas)
 
 @app.route('/registro-historial', methods=['GET', 'POST'])
-# @login_required_admin
+@login_required
 def historial():
     form = Historial( request.form )
     try:
@@ -575,7 +563,7 @@ def historial():
         return render_template('registro-historial.html')
     
 @app.route('/actualizar-historial', methods=['GET', 'POST'])
-# @login_required_admin
+@login_required
 def edit_historial():
     form = Historial( request.form )
     try:
@@ -601,7 +589,7 @@ def edit_historial():
         return render_template('registro-historial.html')
 
 @app.route('/borrar-historial', methods=['GET', 'POST'])
-# @login_required_admin
+@login_required
 def borrar_historial():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -615,6 +603,17 @@ def borrar_historial():
 def download():
     return send_file( "resources/L_medicos.pdf", as_attachment=True )
 
+
+
+#funciones 
+
+def sql_connection():
+    try:
+        conn = sqlite3.connect('dbClinica.db')
+        print("¡Conexión OK!")
+        return conn
+    except Error:
+        print(Error)
 
 def select_historial_completo():
     sql = "SELECT * FROM historial"
@@ -824,10 +823,9 @@ def insert_admn(id, nombre, num_id, email, password, telefono):
     conn.close()
 
 
+#--------
 
-
-
-#DIEGO ESTA LINEA ES NECESARIA PARA LA CERTIFICACION
 if __name__ == "__main__":
     app.run( host='127.0.0.1', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
+
 
