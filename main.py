@@ -22,6 +22,14 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 #app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
 
+def sql_connection():
+    try:
+        conn = sqlite3.connect('dbClinica.db')
+        print("¡Conexión OK!")
+        return conn
+    except Error:
+        print(Error)
+        
 def login_required(view):
     @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
     def wrapped_view(**kwargs):
@@ -607,13 +615,6 @@ def download():
 
 #funciones 
 
-def sql_connection():
-    try:
-        conn = sqlite3.connect('dbClinica.db')
-        print("¡Conexión OK!")
-        return conn
-    except Error:
-        print(Error)
 
 def select_historial_completo():
     sql = "SELECT * FROM historial"
