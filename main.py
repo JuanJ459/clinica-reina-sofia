@@ -32,213 +32,6 @@ def sql_connection():
     except Error:
         print(Error)
 
-def select_historial_completo():
-    sql = "SELECT * FROM historial"
-    conn = sql_connection()
-    cursorObj = conn.cursor()
-    cursorObj.execute(sql)
-    medicos = cursorObj.fetchall()
-    return medicos
-
-def delete_historial(id):
-    sql = "DELETE FROM historial WHERE  cita = '{}'".format(id)
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def edit_historial(cita, historial):
-    sql = "UPDATE historial SET cita = '{}', historial = '{}' WHERE  cita = '{}'".format(cita, historial, cita)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def insert_historial(cita, historial):
-    sql = "INSERT INTO historial (cita, historial) VALUES ('{}', '{}')".format(cita, historial)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def sql_citas_id():
-    sql = "SELECT id, motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, comentarios, valoracion FROM Citas "
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    citas = cursoObj.fetchall()
-    lista_productos = [ {"ID": cita[0], "Motivo": cita[1], "Descipcion": cita[2], "Fecha": cita[3], "Hora_Inicial": cita[4], "Hora_Salida": cita[5], "Estado": cita[6], "ID_Paciente": cita[7], "ID_Medico": cita[8], "Direccion": cita[9], "Ciudad": cita[10], "Celular": cita[11], "Primera_Vez": cita[12], "Comentarios": cita[13], "Valoracion": cita[14]} for cita in citas ]
-    return lista_productos
-
-def dic_pacientes():
-    sql = "SELECT id, tipo_doc, num_doc, email, nombre_ape, tipo_persona FROM pacientes "
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    pacientes = cursoObj.fetchall()
-    lista_pacientes = [ {"ID": paciente[0], "Tipo Documento": paciente[1], "N. ID": paciente[2], "Email": paciente[3], "Nombre": paciente[4], "Regimen": paciente[5]} for paciente in pacientes ]
-    return lista_pacientes
-
-def dic_medicos():
-    sql = "SELECT id, nombre, tipo_doc, num_doc, email, especialidad FROM medico "
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    medicos = cursoObj.fetchall()
-    lista_medicos = [ {"ID": medico[0], "Nombre": medico[1], "Tipo Documento": medico[2], "N. ID": medico[3], "Email": medico[4], "Especialidad_Medico": medico[5]} for medico in medicos ]
-    return lista_medicos
-
-def dic_historial():
-    sql = "SELECT id, cita, historial FROM historial "
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    historias = cursoObj.fetchall()
-    lista_historias = [ {"ID": historia[0], "ID_Cita": historia[1], "Historial": historia[2]} for historia in historias ]
-    return lista_historias
-
-def sql_delete_citas(id):
-    sql = "DELETE FROM Citas WHERE id = '{}' ".format(id)
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def sql_delete_pacientes(num_doc):
-    sql = "DELETE FROM pacientes WHERE num_doc = '{}'".format(num_doc)
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def sql_delete_medicos(num_doc):
-    sql = "DELETE FROM medico WHERE num_doc = '{}'".format(num_doc)
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def sql_edit_citas(motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion):
-    sql = "SET motivo_cita = '{}', descripcion = '{}', fecha = '{}', hora_cita = '{}', horario_salida = '{}', estado = '{}', id_paciente = '{}', idMedico = '{}', direccion = '{}', ciudad = '{}', celular = '{}', first_time = '{}', especialidad_consulta = '{}', comentarios = '{}', valoracion = '{}' WHERE id_paciente = '{}' AND idMedico = '{}'".format(motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion, id_paciente, idMedico)
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def sql_edit_paciente(tipo_doc, num_doc, email, password, nombre_ape, tipo_persona):
-    sql = "SET tipo_doc = '{}', num_doc = '{}', email = '{}', password = '{}', nombre_ape = '{}', tipo_persona = '{}' WHERE num_doc = '{}'".format(tipo_doc, num_doc, email, password, nombre_ape, tipo_persona, num_doc)
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def sql_edit_medico(nombre, tipo_doc, num_doc, email, password, especialidad):
-    sql = "UPDATE medico SET nombre = '{}', tipo_doc = '{}', num_doc = '{}', email = '{}', password = '{}', especialidad = '{}' WHERE  num_doc = '{}'".format(nombre, tipo_doc, num_doc, email, password, especialidad, num_doc)
-    print(sql)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def seq_insert_medico(nombre, t_id_login, no_id_login, email, password, especialidad):
-    sql = "INSERT INTO medico (nombre,tipo_doc, num_doc, email, password, especialidad) VALUES ('{}', '{}', '{}', '{}', '{}','{}')".format(nombre, t_id_login, no_id_login, email, password, especialidad)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def insert_registro_usuario(tipo_id, num_doc, email, password, nombre_ape, tipo_persona):
-    sql = "INSERT INTO pacientes (tipo_doc, num_doc, email, password, nombre_ape, tipo_persona) VALUES ('{}', '{}', '{}', '{}', '{}', '{}')".format(tipo_id, num_doc, email, password, nombre_ape, tipo_persona)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def insert_registro_cita(motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion):
-    sql = "INSERT INTO Citas (motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
-def sql_select_medicos():
-    sql = "SELECT nombre, num_doc, email, especialidad FROM medico"
-    conn = sql_connection()
-    cursorObj = conn.cursor()
-    cursorObj.execute(sql)
-    medicos = cursorObj.fetchall()
-    return medicos
-
-def sql_select_pacientes():
-    sql = "SELECT num_doc, email, nombre_ape FROM pacientes"
-    conn = sql_connection()
-    cursorObj = conn.cursor()
-    cursorObj.execute(sql)
-    pacientes = cursorObj.fetchall()
-    return pacientes
-
-def sql_select_citas():
-    sql="SELECT id, motivo_cita, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta FROM Citas"
-    conn = sql_connection()
-    cursorObj = conn.cursor()
-    cursorObj.execute(sql)
-    citas = cursorObj.fetchall()
-    return citas
-
-def sql_select_especialidad():
-    sql = "SELECT id, nombre FROM especialidad_medico"
-    conn = sql_connection()
-    cursorObj = conn.cursor()
-    cursorObj.execute(sql)
-    especialidades = cursorObj.fetchall()
-    return especialidades
-
-def select_citas_completo():
-    sql = "SELECT id, motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion FROM Citas"
-    conn = sql_connection()
-    cursorObj = conn.cursor()
-    cursorObj.execute(sql)
-    citas_completo = cursorObj.fetchall()
-    return citas_completo
-
-def select_pacientes_completo():
-    sql = "SELECT id, tipo_doc, num_doc, email, nombre_ape, tipo_persona FROM pacientes"
-    conn = sql_connection()
-    cursorObj = conn.cursor()
-    cursorObj.execute(sql)
-    pacientes = cursorObj.fetchall()
-    return pacientes
-
-def insert_admn(id, nombre, num_id, email, password, telefono):
-    sql = "INSERT INTO admin (id, nombre, num_id, email, password, telefono) VALUES ('{}', '{}', '{}', '{}', '{}', '{}')".format(id, nombre, num_id, email, password, telefono)
-    conn = sql_connection()
-    cursoObj = conn.cursor()
-    cursoObj.execute(sql)
-    conn.commit()
-    conn.close()
-
 
 
 def login_required(view):
@@ -822,6 +615,213 @@ def borrar_historial():
 def download():
     return send_file( "resources/L_medicos.pdf", as_attachment=True )
 
+
+def select_historial_completo():
+    sql = "SELECT * FROM historial"
+    conn = sql_connection()
+    cursorObj = conn.cursor()
+    cursorObj.execute(sql)
+    medicos = cursorObj.fetchall()
+    return medicos
+
+def delete_historial(id):
+    sql = "DELETE FROM historial WHERE  cita = '{}'".format(id)
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def edit_historial(cita, historial):
+    sql = "UPDATE historial SET cita = '{}', historial = '{}' WHERE  cita = '{}'".format(cita, historial, cita)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def insert_historial(cita, historial):
+    sql = "INSERT INTO historial (cita, historial) VALUES ('{}', '{}')".format(cita, historial)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def sql_citas_id():
+    sql = "SELECT id, motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, comentarios, valoracion FROM Citas "
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    citas = cursoObj.fetchall()
+    lista_productos = [ {"ID": cita[0], "Motivo": cita[1], "Descipcion": cita[2], "Fecha": cita[3], "Hora_Inicial": cita[4], "Hora_Salida": cita[5], "Estado": cita[6], "ID_Paciente": cita[7], "ID_Medico": cita[8], "Direccion": cita[9], "Ciudad": cita[10], "Celular": cita[11], "Primera_Vez": cita[12], "Comentarios": cita[13], "Valoracion": cita[14]} for cita in citas ]
+    return lista_productos
+
+def dic_pacientes():
+    sql = "SELECT id, tipo_doc, num_doc, email, nombre_ape, tipo_persona FROM pacientes "
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    pacientes = cursoObj.fetchall()
+    lista_pacientes = [ {"ID": paciente[0], "Tipo Documento": paciente[1], "N. ID": paciente[2], "Email": paciente[3], "Nombre": paciente[4], "Regimen": paciente[5]} for paciente in pacientes ]
+    return lista_pacientes
+
+def dic_medicos():
+    sql = "SELECT id, nombre, tipo_doc, num_doc, email, especialidad FROM medico "
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    medicos = cursoObj.fetchall()
+    lista_medicos = [ {"ID": medico[0], "Nombre": medico[1], "Tipo Documento": medico[2], "N. ID": medico[3], "Email": medico[4], "Especialidad_Medico": medico[5]} for medico in medicos ]
+    return lista_medicos
+
+def dic_historial():
+    sql = "SELECT id, cita, historial FROM historial "
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    historias = cursoObj.fetchall()
+    lista_historias = [ {"ID": historia[0], "ID_Cita": historia[1], "Historial": historia[2]} for historia in historias ]
+    return lista_historias
+
+def sql_delete_citas(id):
+    sql = "DELETE FROM Citas WHERE id = '{}' ".format(id)
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def sql_delete_pacientes(num_doc):
+    sql = "DELETE FROM pacientes WHERE num_doc = '{}'".format(num_doc)
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def sql_delete_medicos(num_doc):
+    sql = "DELETE FROM medico WHERE num_doc = '{}'".format(num_doc)
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def sql_edit_citas(motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion):
+    sql = "SET motivo_cita = '{}', descripcion = '{}', fecha = '{}', hora_cita = '{}', horario_salida = '{}', estado = '{}', id_paciente = '{}', idMedico = '{}', direccion = '{}', ciudad = '{}', celular = '{}', first_time = '{}', especialidad_consulta = '{}', comentarios = '{}', valoracion = '{}' WHERE id_paciente = '{}' AND idMedico = '{}'".format(motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion, id_paciente, idMedico)
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def sql_edit_paciente(tipo_doc, num_doc, email, password, nombre_ape, tipo_persona):
+    sql = "SET tipo_doc = '{}', num_doc = '{}', email = '{}', password = '{}', nombre_ape = '{}', tipo_persona = '{}' WHERE num_doc = '{}'".format(tipo_doc, num_doc, email, password, nombre_ape, tipo_persona, num_doc)
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def sql_edit_medico(nombre, tipo_doc, num_doc, email, password, especialidad):
+    sql = "UPDATE medico SET nombre = '{}', tipo_doc = '{}', num_doc = '{}', email = '{}', password = '{}', especialidad = '{}' WHERE  num_doc = '{}'".format(nombre, tipo_doc, num_doc, email, password, especialidad, num_doc)
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def seq_insert_medico(nombre, t_id_login, no_id_login, email, password, especialidad):
+    sql = "INSERT INTO medico (nombre,tipo_doc, num_doc, email, password, especialidad) VALUES ('{}', '{}', '{}', '{}', '{}','{}')".format(nombre, t_id_login, no_id_login, email, password, especialidad)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def insert_registro_usuario(tipo_id, num_doc, email, password, nombre_ape, tipo_persona):
+    sql = "INSERT INTO pacientes (tipo_doc, num_doc, email, password, nombre_ape, tipo_persona) VALUES ('{}', '{}', '{}', '{}', '{}', '{}')".format(tipo_id, num_doc, email, password, nombre_ape, tipo_persona)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def insert_registro_cita(motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion):
+    sql = "INSERT INTO Citas (motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion) VALUES ('{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}', '{}')".format(motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def sql_select_medicos():
+    sql = "SELECT nombre, num_doc, email, especialidad FROM medico"
+    conn = sql_connection()
+    cursorObj = conn.cursor()
+    cursorObj.execute(sql)
+    medicos = cursorObj.fetchall()
+    return medicos
+
+def sql_select_pacientes():
+    sql = "SELECT num_doc, email, nombre_ape FROM pacientes"
+    conn = sql_connection()
+    cursorObj = conn.cursor()
+    cursorObj.execute(sql)
+    pacientes = cursorObj.fetchall()
+    return pacientes
+
+def sql_select_citas():
+    sql="SELECT id, motivo_cita, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta FROM Citas"
+    conn = sql_connection()
+    cursorObj = conn.cursor()
+    cursorObj.execute(sql)
+    citas = cursorObj.fetchall()
+    return citas
+
+def sql_select_especialidad():
+    sql = "SELECT id, nombre FROM especialidad_medico"
+    conn = sql_connection()
+    cursorObj = conn.cursor()
+    cursorObj.execute(sql)
+    especialidades = cursorObj.fetchall()
+    return especialidades
+
+def select_citas_completo():
+    sql = "SELECT id, motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, especialidad_consulta, comentarios, valoracion FROM Citas"
+    conn = sql_connection()
+    cursorObj = conn.cursor()
+    cursorObj.execute(sql)
+    citas_completo = cursorObj.fetchall()
+    return citas_completo
+
+def select_pacientes_completo():
+    sql = "SELECT id, tipo_doc, num_doc, email, nombre_ape, tipo_persona FROM pacientes"
+    conn = sql_connection()
+    cursorObj = conn.cursor()
+    cursorObj.execute(sql)
+    pacientes = cursorObj.fetchall()
+    return pacientes
+
+def insert_admn(id, nombre, num_id, email, password, telefono):
+    sql = "INSERT INTO admin (id, nombre, num_id, email, password, telefono) VALUES ('{}', '{}', '{}', '{}', '{}', '{}')".format(id, nombre, num_id, email, password, telefono)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
 
 
 
