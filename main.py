@@ -528,37 +528,37 @@ def administrador():
     return render_template('dashboard.html')
 
 @app.route('/lista-citas/')
-@login_required_admin
+# @login_required_admin
 def citas():
     citas = sql_select_citas()
     return render_template('listar_citas.html', citas=citas)    
     
 
 @app.route('/resultado-busqueda/<int:id>/', methods=['GET', 'POST'])
-@login_required_admin
+# @login_required_admin
 def resultado(id=0):
     return render_template('Resultadodebusqueda.html')
 
 @app.route('/listar-citas')
-@login_required_admin
+# @login_required_admin
 def listarCitas():
     citas = select_citas_completo()
     return render_template('Listar_citas.html', citas = citas)
 
 @app.route('/listar-pacientes')
-@login_required_admin
+# @login_required_admin
 def listarPacientes():
     pacientes = select_pacientes_completo()
     return render_template('listar_pacientes.html', pacientes = pacientes)
 
 @app.route('/listar-medicos')
-@login_required_admin
+# @login_required_admin
 def listarMedicos():
     medicos = sql_select_medicos()
     return render_template('Listar_medico.html', medicos = medicos)
 
 @app.route('/listar-historial')
-@login_required_admin
+# @login_required_admin
 def listarhistorial():
     historias = select_historial_completo()
     return render_template('Listar_historial.html', historias = historias)
@@ -621,7 +621,7 @@ def registro_medico():
 
 
 @app.route('/actualizar-medico/', methods=['GET','POST','PUT'])
-@login_required_admin
+# @login_required_admin
 def actualizar_medico():
     form = Registro_medicos( request.form )
     try:
@@ -644,7 +644,7 @@ def actualizar_medico():
         return render_template('actualizar_medico.html', form=form)
 
 @app.route('/actualizar-paciente/', methods=['GET','POST','PUT'])
-@login_required_admin
+# @login_required_admin
 def edit_usuario():
     form = Registro_usuario( request.form )
     try:
@@ -667,7 +667,7 @@ def edit_usuario():
         return render_template('actualizar_paciente.html')
 
 @app.route('/actualizar-citas/', methods=['GET','POST'])
-@login_required_admin
+# @login_required_admin
 def actualizar_citas():
     form = Registrar_cita( request.form )
     if request.method == 'POST':
@@ -691,7 +691,7 @@ def actualizar_citas():
     return render_template('registrar_citas.html', form=form)
 
 @app.route('/borrar-medicos/', methods=['GET','POST'])
-@login_required_admin
+# @login_required_admin
 def borrar_medicos():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -702,7 +702,7 @@ def borrar_medicos():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-pacientes/', methods=['GET','POST'])
-@login_required_admin
+# @login_required_admin
 def borrar_pacientes():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -713,7 +713,7 @@ def borrar_pacientes():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-citas/', methods=['GET','POST'])
-@login_required_admin
+# @login_required_admin
 def borrar_citas():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -755,7 +755,7 @@ def method_name(id=0):
         return render_template('historial.html', lista_historias = lista_historias, lista_citas = lista_citas)
 
 @app.route('/registro-historial', methods=['GET', 'POST'])
-@login_required_admin
+# @login_required_admin
 def historial():
     form = Historial( request.form )
     try:
@@ -782,7 +782,7 @@ def historial():
         return render_template('registro-historial.html')
     
 @app.route('/actualizar-historial', methods=['GET', 'POST'])
-@login_required_admin
+# @login_required_admin
 def edit_historial():
     form = Historial( request.form )
     try:
@@ -808,7 +808,7 @@ def edit_historial():
         return render_template('registro-historial.html')
 
 @app.route('/borrar-historial', methods=['GET', 'POST'])
-@login_required_admin
+# @login_required_admin
 def borrar_historial():
     form = Borrar( request.form )
     if request.method == 'POST':
