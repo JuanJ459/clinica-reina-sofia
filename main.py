@@ -256,7 +256,8 @@ def registro_usuario():
             no_id = request.form['no_id']
             email = request.form['email']
             password = request.form['password']
-
+   
+   
             error = None
             db = get_db()
 
