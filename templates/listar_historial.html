@@ -36,9 +36,9 @@
                 </tr> 
                 {% for pro in historias %}
                     <tr>
-                        <td width="4">{% print(pro[0]) %}</td> 
-                        <td width="4">{% print(pro[1]) %}</td> 
-                        <td width="4">{% print(pro[2]) %}</td>
+                        <td width="4">{% print(pro['ID']) %}</td> 
+                        <td width="4">{% print(pro['ID_Cita']) %}</td> 
+                        <td width="4">{% print(pro['Historial']) %}</td> 
                         
                     </tr>
                 {% endfor %}

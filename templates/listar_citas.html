@@ -50,21 +50,22 @@
                 </tr> 
                 {% for pro in citas %}
                     <tr>
-                        <td width="2">{% print(pro[0]) %}</td> 
-                        <td width="2">{% print(pro[1]) %}</td> 
-                        <td width="2">{% print(pro[2]) %}</td>  
-                        <td width="2">{% print(pro[3]) %}</td>
-                        <td width="2">{% print(pro[4]) %}</td> 
-                        <td width="2">{% print(pro[5]) %}</td> 
-                        <td width="2">{% print(pro[6]) %}</td>  
-                        <td width="2">{% print(pro[7]) %}</td>
-                        <td width="2">{% print(pro[8]) %}</td> 
-                        <td width="2">{% print(pro[9]) %}</td> 
-                        <td width="2">{% print(pro[10]) %}</td>  
-                        <td width="2">{% print(pro[11]) %}</td>
-                        <td width="2">{% print(pro[12]) %}</td> 
-                        <td width="2">{% print(pro[13]) %}</td> 
-                        <td width="2">{% print(pro[14]) %}</td>  
+                        
+                        <td width="2">{% print(pro['ID']) %}</td> 
+                        <td width="2">{% print(pro['Motivo']) %}</td> 
+                        <td width="2">{% print(pro['Descipcion']) %}</td> 
+                        <td width="2">{% print(pro['Fecha']) %}</td> 
+                        <td width="2">{% print(pro['Hora_Inicial']) %}</td> 
+                        <td width="2">{% print(pro['Hora_Salida']) %}</td> 
+                        <td width="2">{% print(pro['Estado']) %}</td> 
+                        <td width="2">{% print(pro['ID_Paciente']) %}</td> 
+                        <td width="2">{% print(pro['ID_Medico']) %}</td> 
+                        <td width="2">{% print(pro['Direccion']) %}</td> 
+                        <td width="2">{% print(pro['Ciudad']) %}</td> 
+                        <td width="2">{% print(pro['Celular']) %}</td> 
+                        <td width="2">{% print(pro['Primera_Vez']) %}</td> 
+                        <td width="2">{% print(pro['Comentarios']) %}</td> 
+                        <td width="2">{% print(pro['Valoracion']) %}</td> 
                         
                     </tr>
                 {% endfor %}

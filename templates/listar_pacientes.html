@@ -41,13 +41,12 @@
                 </tr> 
                 {% for pro in pacientes %}
                     <tr>
-                        <td width="2">{% print(pro[0]) %}</td> 
-                        <td width="2">{% print(pro[1]) %}</td> 
-                        <td width="2">{% print(pro[2]) %}</td>  
-                        <td width="2">{% print(pro[4]) %}</td>
-                        <td width="2">{% print(pro[3]) %}</td> 
-                        <td width="2">{% print(pro[5]) %}</td> 
-                        
+                        <td width="2">{% print(pro['ID']) %}</td> 
+                        <td width="2">{% print(pro['Tipo Documento']) %}</td> 
+                        <td width="2">{% print(pro['N. ID']) %}</td> 
+                        <td width="2">{% print(pro['Nombre']) %}</td> 
+                        <td width="2">{% print(pro['Email']) %}</td> 
+                        <td width="2">{% print(pro['Regimen']) %}</td>    
                     </tr>
                 {% endfor %}
                 </tbody>

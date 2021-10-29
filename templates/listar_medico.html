@@ -32,15 +32,17 @@
                 <tr> 
                      
                     <td width="2">Nombre</td>                 
+                    <td width="2">Tipo Documento</td> 
                     <td width="2">ID</td> 
                     <td width="2">Email</td> 
 
                 </tr> 
                 {% for pro in medicos %}
                     <tr>
-                        <td width="2">{% print(pro[0]) %}</td> 
-                        <td width="2">{% print(pro[1]) %}</td> 
-                        <td width="2">{% print(pro[2]) %}</td>  
+                        <td width="2">{% print(pro['Nombre']) %}</td> 
+                        <td width="2">{% print(pro['Tipo Documento']) %}</td> 
+                        <td width="2">{% print(pro['N. ID']) %}</td>  
+                        <td width="2">{% print(pro['Email']) %}</td>
                         
                     </tr>
                 {% endfor %}
