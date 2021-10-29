@@ -511,7 +511,7 @@ def logout():
 
 @app.route('/buscador-citas/<int:id>/', methods=['GET','POST'])
 @app.route('/buscador-citas', methods=['GET','POST'])
-# @login_required or login_required_admin
+#@login_required or login_required_admin
 def buscador_citas(id=0):
     citas = sql_citas_id()
     lista_citas = [ cita for cita in citas if cita['ID_Medico'] == id ]
@@ -823,7 +823,9 @@ def insert_admn(id, nombre, num_id, email, password, telefono):
     conn.close()
 
 
-#DIEGO ESTA LINEA ES NECESARIA PARA LA CERTIFICACION
+#---------
+
 if __name__ == "__main__":
     app.run( host='127.0.0.1', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
+
 
