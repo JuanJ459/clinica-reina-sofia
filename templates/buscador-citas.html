@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>BuscarCitas</title>
+        <!--CDN Font awesome -->
+        <link rel='stylesheet' href="{{ url_for('static', filename='/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" >
+        <script src="{{ url_for('static', filename='js/validacion.js') }}"> </script>
+    </head>
+    <body>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <a href="/index">Inicio</a>
+        <a href="/logout">Cerrar Sesion</a>
+        <figure>
+            <img src="{{ url_for('static', filename='img/logo_reina.png') }}" alt="Logo" class="logo"/>
+        </figure>
+         
+    
+        <center>
+        <section>
+            <h1>Buscador De Citas Medicas</h1>
+        </section>
+        <br>
+        <section>
+            <p>tus citas medicas:</p>
+        </section>
+        </center>
+        <br>
+        <br>
+        <main>
+        <center>
+            <br>
+            <br>
+            <br>
+            <br>
+            <table id="tabel" border="1"> 
+                <tbody>
+                <tr> 
+                    <td width="2">Id</td>                 
+                    <td width="2">Motivo</td> 
+                    <td width="2">Descripción</td> 
+                    <td width="2">Fecha</td> 
+                    <td width="2">Hora Entrada</td>                 
+                    <td width="2">Hora Salida</td> 
+                    <td width="2">Estado</td> 
+                    <td width="2">ID-Paciente</td> 
+                    <td width="2">ID-Medico</td>                 
+                    <td width="2">Dirección</td> 
+                    <td width="2">Ciudad</td> 
+                    <td width="2">Celular</td> 
+                    <td width="2">Primera Cita</td>               
+                    <td width="2">Comentarios</td> 
+                    <td width="2">Valoración</td> 
+
+                </tr> 
+                {% for pro in lista_citas %}
+                    <tr>
+
+                        <td width="2">{% print(pro['ID']) %}</td> 
+                        <td width="2">{% print(pro['Motivo']) %}</td> 
+                        <td width="2">{% print(pro['Descipcion']) %}</td>  
+                        <td width="2">{% print(pro['Fecha']) %}</td>
+                        <td width="2">{% print(pro['Hora_Inicial']) %}</td> 
+                        <td width="2">{% print(pro['Hora_Salida']) %}</td> 
+                        <td width="2">{% print(pro['Estado']) %}</td>  
+                        <td width="2">{% print(pro['ID_Paciente']) %}</td>
+                        <td width="2">{% print(pro['ID_Medico']) %}</td> 
+                        <td width="2">{% print(pro['Direccion']) %}</td> 
+                        <td width="2">{% print(pro['Ciudad']) %}</td>  
+                        <td width="2">{% print(pro['Celular']) %}</td>
+                        <td width="2">{% print(pro['Primera_Vez']) %}</td> 
+                        <td width="2">{% print(pro['Comentarios']) %}</td> 
+                        <td width="2">{% print(pro['Valoracion']) %}</td>  
+                        
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+
+
+        </center>
+        </main>
+        
+    </body>
+</html>

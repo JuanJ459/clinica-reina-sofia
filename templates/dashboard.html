@@ -15,19 +15,25 @@
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
 
+<a href="/logout" class="cerrar">Cerrar sesión</a>
+<figure>
+    <img src="/static/img/logo_reina.png" alt="Logo" class="logo"/>
+</figure>           
+</div>
+
 <div class="container-grid">
     <div class="contenedor-menu cointainer1">
         <a href="#" class="btn-menu"> Dashboard <i class="icono fas fa-bars"></i></a>
         <ul class="menu">
             <!-- <li><a href="#" ><i class="fas fa-bars"> </i> Inicio</a></li> -->
-            <li><a href="/resultado-busqueda"><i class="icono izquierda fas fa-clinic-medical"></i>Superadministrador</a></li>
+            <li><a href="#"><i class="icono izquierda fas fa-clinic-medical"></i>Superadministrador</a></li>
             <li class="activado"><a href="#"> <i class="icono izquierda fas fa-notes-medical"></i> Gestionar Citas <i
                         class="icono derecha fas fa-chevron-down"></i></a>
                 <ul>
-                    <li><a href="/resultado-busqueda">Crear Cita</a></li>
-                    <li><a href="/resultado-busqueda">Modificar Cita</a></li>
-                    <li><a href="/resultado-busqueda">Eliminar Cita</a></li>
-                    <li><a href="/resultado-busqueda">Listar Citas</a></li>
+                    <li><a href="/registrar-cita">Crear Cita</a></li>
+                    <li><a href="/actualizar-citas">Modificar Cita</a></li>
+                    <li><a href="/borrar-citas">Eliminar Cita</a></li>
+                    <li><a href="/listar-citas">Listar Citas</a></li>
                 </ul>
             </li>
             <li class="activado"><a href="/resultado-busqueda"> <i class="icono izquierda fas fa-user-md"></i> Gestionar Medicos <i
@@ -40,16 +46,16 @@
                 </ul>
 
             </li>
-            <li class="activado"><a href="/resultado-busqueda"> <i class="icono izquierda fas fa-procedures"></i> Gestionar Pacientes <i
+            <li class="activado"><a href=""><i class="icono izquierda fas fa-procedures"></i> Gestionar Pacientes <i
                         class="icono derecha fas fa-chevron-down"></i></a>
                 <ul>
-                    <li><a href="/resultado-busqueda">Agregar Pacientes</a></li>
+                    <li><a href="/listar-pacientes">Agregar Pacientes</a></li>
                     <li><a href="/resultado-busqueda">Modificar datos paciente</a></li>
                     <li><a href="/resultado-busqueda">Eliminar Paciente</a></li>
                     <li><a href="/resultado-busqueda">Listar Citas</a></li>
                 </ul>
             </li>
-            <li class="activado"><a href="/resultado-busqueda"> <i class="icono izquierda fas fa-book-medical"></i> Gestionar Historia
+            <li class="activado"><a href=""> <i class="icono izquierda fas fa-book-medical"></i> Gestionar Historia
                     Clínica <i class="icono derecha fas fa-chevron-down"></i></a>
                 <ul>
                     <li><a href="/resultado-busqueda">Crear historia clinica</a></li>
@@ -62,33 +68,37 @@
     </div>
     <div class="container2">
         
-        <div  class="segundo">
-            <h1>Gestionar Citas</h1>
-            <button><a href="/listar-citas">Listar Citas</a></button>
-            <button><a href="/registrar-cita">Agregar Cita</a></button>
-            <button><a href="/actualizar-citas">Modificar Cita</a></button>
-            <button><a href="/borrar-citas">Borrar Cita</a></button>
+        <div  class="segundo" id="segundop">
+            <h1 class="tituloBoton">Citas</h1>
+            <button class="buttonScrull"><a href="/listar-citas">Listar Citas</a></button>
+            <button class="buttonScrull"><a href="/registrar-cita">Agregar Cita</a></button>
+            <br class="espacioB">
+            <button class="buttonScrull"><a href="/actualizar-citas">Modificar Cita</a></button>
+            <button class="buttonScrull"><a href="/borrar-citas">Borrar Cita</a></button>
         </div>
-        <div class="segundo">
-            <h1>Gestionar Pacientes</h1>
-            <button><a href="/listar-pacientes">Listar</a></button>
-            <button><a href="/registro_usuario">Agregar</a></button>
-            <button><a href="/actualizar-paciente">Modificar</a></button>
-            <button><a href="/borrar-pacientes">Borrar</a></button>
+        <div class="segundo" id="segundos">
+            <h1 class="tituloBoton">Pacientes</h1>
+            <button class="buttonScrull"><a href="/listar-pacientes">Listar</a></button>
+            <button class="buttonScrull"><a href="/registro_usuario">Agregar</a></button>
+            <br class="espacioB">
+            <button class="buttonScrull"><a href="/actualizar-paciente">Modificar</a></button>
+            <button class="buttonScrull"><a href="/borrar-pacientes">Borrar</a></button>
         </div>
-        <div class="segundo">
-            <h1>Gestionar Medicos</h1>
-            <button><a href="/listar-medicos">Listar</a></button>
-            <button><a href="/registro_medico">Agregar</a></button>
-            <button><a href="/actualizar-medico">Modificar</a></button>
-            <button><a href="/borrar-medicos">Borrar</a></button>
+        <div class="segundo" id="segundot">
+            <h1 class="tituloBoton">Medicos</h1>
+            <button class="buttonScrull"><a href="/listar-medicos">Listar</a></button>
+            <button class="buttonScrull"><a href="/registro_medico">Agregar</a></button>
+            <br class="espacioB">
+            <button class="buttonScrull"><a href="/actualizar-medico">Modificar</a></button>
+            <button class="buttonScrull"><a href="/borrar-medicos">Borrar</a></button>
         </div>
-        <div class="segundo">
-            <h1>Historial Clinico</h1>
-            <button><a href="/listar-historial">Listar</a></button><!--falta-->
-            <button><a href="/registrar-cita">Agregar</a></button><!--falta-->
-            <button><a href="/listar-citas">Modificar</a></button><!--falta-->
-            <button><a href="/borrar-historial">Borrar</a></button><!--falta-->
+        <div class="segundo" id="segundoc">
+            <h1 class="tituloBoton">Historial</h1>
+            <button class="buttonScrull"><a href="/listar-historial">Listar</a></button>
+            <button class="buttonScrull"><a href="/registro-historial">Agregar</a></button>
+            <br class="espacioB">
+            <button class="buttonScrull"><a href="/actualizar-historial">Modificar</a></button>
+            <button class="buttonScrull"><a href="/borrar-historial">Borrar</a></button>
         </div>
         
     </div>

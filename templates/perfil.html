@@ -11,6 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/static/css/styles.css">
 </head>
+
 <body>
     <figure>
         <img src="{{ url_for('static', filename='img/logo_reina.png') }}" alt="Logo" class="logo"/>
@@ -31,20 +32,25 @@
                 Email: {{perfil_medico[2]}} {{perfil_paciente[1]}}
             </div>
             <div class="borde">
-                <h2> <i class="fas fa-calendar-plus"></i><a href=  "/detalle-cita/{{id}}"> Tus Citas Medicas</a></h2>
+                <h2> <i class="fas fa-calendar-plus"></i><a href=  "/buscador-citas/{{id}}" id="luz"> Tus Citas Medicas</a></h2>
             </div>
             <div class="borde">
-                <h2> <i class="fas fa-file"></i><a href="/registrar-cita"> Solicitar Cita Medica</a></h2>
+                <h2> <i class="fas fa-file"></i><a href="/registrar-cita" id="luz"> Solicitar Cita Medica</a></h2>
             </div>
             <div class="borde">
-                <h2> <i class="fas fa-clipboard-check"></i> Historial Clinico </h2>
+                <h2> <i class="fas fa-clipboard-check" id="luz"></i><a href="/detalle-cita/{{id}}" id="luz">Tu Próxima Cita</a></h2>
             </div>
             <div class="borde">
-                <h2><i class="fas fa-sign-out-alt"></i><a href="/index">Cerrar Cesión</a></h2>
+                <h2> <i class="fas fa-file"></i><a href="/download" id="luz"> Descargar Lista Medicos</a></h2>
+            </div>
+            <div class="borde">
+                <h2><i class="fas fa-sign-out-alt"></i><a href="/logout" id="luz">Cerrar Cesión</a></h2>
             </div>
         </div>
         <div class="lado-derecho">
             <span>Bienvenido(a) a Oficina Virtual</span>
+            <br>
+            <br>
         </div>
     </div>
 </body>

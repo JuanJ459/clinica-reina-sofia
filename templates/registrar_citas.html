@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" >
 
 </head>
+<div class="enlaces">
+    {% if g.user or g.user_medico or g.user_admin %}
+        <a href="/logout">Cerrar sesión</a>
+    {% endif %}
+</div>
 <body>
     {% with messages = get_flashed_messages() %}
         {% if messages %}
@@ -52,17 +57,17 @@
                 <br>
                 {{form.date.label}}
                 <br>
-                {{form.date}}
+                {{form.date(placeholder="DD/MM/YYY")}}
                 <br>
                 <br>
                 {{form.start_time.label}}
                 <br>
-                {{form.start_time}}
+                {{form.start_time(placeholder="--:--")}}
                 <br>
                 <br>
                 {{form.end_time.label}}
                 <br>
-                {{form.end_time}}
+                {{form.end_time(placeholder="--:--")}}
                 <br>
                 <br>
                 {{form.estado.label}}

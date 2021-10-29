@@ -6,13 +6,14 @@ from flask import jsonify
 from flask import session
 from flask import g
 import functools
+from flask import send_file
 from werkzeug.security import generate_password_hash, check_password_hash 
 import os
 from flask import redirect, url_for
 from wtforms.validators import NoneOf
 from utils import isUsernameValid, isEmailValid, isPasswordValid
 import yagmail as yagmail
-from forms import Registro_usuario, Login, Registrar_cita, Detalle_cita, Registro_medicos, Borrar
+from forms import Registro_usuario, Login, Registrar_cita, Detalle_cita, Registro_medicos, Borrar, Historial
 import sqlite3
 from sqlite3 import Error
 from db import get_db, close_db
@@ -24,30 +25,19 @@ app.secret_key = os.urandom(24)
 def login_required(view):
     @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
     def wrapped_view(**kwargs):
-        #if g.user_admin == True:
-        #    if g.user_admin is None:
-        #        return redirect('login')
-        #    return view( **kwargs)
-        if g.user== True:
-            if g.user is None:
-                    return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
-            return view( **kwargs )
-        else:
-            if g.user_medico == True:
-                if g.user_medico is None:
-                    return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
-            return view( **kwargs )
-
+        if (g.user_medico is None) and (g.user is None):
+            return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
+        return view( **kwargs )
     return wrapped_view
 
 def login_required_admin(view):
     @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
-    def wrapped_view(**kwargs):
+    def wrapped_viewp(**kwargsp):
         print("hola")
         if g.user_admin is None:
             return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
-        return view( **kwargs )
-    return wrapped_view
+        return view( **kwargsp )
+    return wrapped_viewp
 
 @app.before_request
 def cargar_paciente_registrado():
@@ -61,7 +51,8 @@ def cargar_paciente_registrado():
                 ,
                 (id_usuario,)
             ).fetchone()
-   
+
+
 @app.before_request
 def cargar_medico_registrado():
     print("entro en el before medico")
@@ -98,37 +89,40 @@ def index():
     return render_template('index.html')
 
 
-@app.route('/detalle-cita')
+@app.route('/detalle-cita/')
 @app.route('/detalle-cita/<int:id>/')
 @app.route('/login/perfil/detalle-cita/<int:id>/')
-@login_required or login_required_admin
+#@login_required or login_required_admin
 def detalle_cita(id=0):
     form = Detalle_cita( request.form )
-    #idu = request.args.get('id_paciente')
-    #ido = form.id_paciente.data
-    pacientes = sql_select_pacientes()
-    citas = sql_select_citas()
-    medicos = sql_select_medicos()
-    especialidades = sql_select_especialidad()
-    pacientes = [ paciente for paciente in pacientes if paciente[0] == id ]
-    citas = [ cita for cita in citas if cita[6] == id ]
-    cita_especifica = citas[0]
-    medicos = [ medico for medico in medicos if medico[1] == cita_especifica[7]]#no esta leyendo el cita_especifica
-    perfil_medico = medicos[0]
-    especialidades = [ especialidad for especialidad in especialidades if especialidad[0] == perfil_medico[3] ]
-    if len(pacientes)>0 and len(citas)>0 and len(medicos)>0 and len(especialidades)>0:
-        perfil_paciente = pacientes[0]
-        especialidad_medico = especialidades[0]
-        #cita_especifica = citas[0]
-        #perfil_medico = medicos[0]
-        return render_template('detalle_cita.html', form=form, perfil_paciente=perfil_paciente, cita_especifica=cita_especifica, perfil_medico=perfil_medico, especialidad_medico=especialidad_medico)
-    return render_template('detalle_cita.html', form=form, perfil_paciente=None, cita_especifica=None, perfil_medico=None, especialidad_medico=None)
-
+    try:
+        #idu = request.args.get('id_paciente')
+        #ido = form.id_paciente.data
+        pacientes = sql_select_pacientes()
+        citas = sql_select_citas()
+        medicos = sql_select_medicos()
+        especialidades = sql_select_especialidad()
+        pacientes = [ paciente for paciente in pacientes if paciente[0] == id ]
+        citas = [ cita for cita in citas if cita[6] == id or cita[7] == id and cita[5] == "Pendiente"]
+        cita_especifica =  citas[0]  
+        medicos = [ medico for medico in medicos if medico[1] == cita_especifica[7]]#no esta leyendo el cita_especifica
+        perfil_medico = medicos[0]
+        especialidades = [ especialidad for especialidad in especialidades if especialidad[0] == perfil_medico[3] ]
+        if len(pacientes)>0 and len(citas)>0 and len(medicos)>0 and len(especialidades)>0:
+            perfil_paciente = pacientes[0]
+            especialidad_medico = especialidades[0]
+            #cita_especifica = citas[0]
+            #perfil_medico = medicos[0]
+            return render_template('detalle_cita.html', form=form, perfil_paciente=perfil_paciente, cita_especifica=cita_especifica, perfil_medico=perfil_medico, especialidad_medico=especialidad_medico)
+        return render_template('detalle_cita.html', form=form, perfil_paciente=None, cita_especifica=None, perfil_medico=None, especialidad_medico=None)
+    except:
+        flash("No Encontrado")
+        return render_template('detalle_cita.html')
 
 
 @app.route('/login/perfil/<int:id>/')
 @app.route('/perfil/<int:id>/')
-@login_required
+#@login_required
 def perfil(id=0):
     medicos = sql_select_medicos()
     pacientes = sql_select_pacientes()
@@ -150,7 +144,6 @@ def perfil(id=0):
 
 @app.route('/registrar-cita/', methods=['GET','POST'])
 @app.route('/registrar-cita/<int:id>/', methods=['GET', 'POST'])
-@login_required or login_required_admin
 def registrar_cita(id=0):
     form = Registrar_cita( request.form )
     if request.method == 'POST':
@@ -315,10 +308,12 @@ def registro_usuario():
 def administrador():
     return render_template('dashboard.html')
 
-@app.route('/lista-citas', methods=['GET', 'POST'])
-@login_required
+@app.route('/lista-citas/')
+@login_required_admin
 def citas():
-    return render_template('list_citas.html')
+    citas = sql_select_citas()
+    return render_template('listar_citas.html', citas=citas)    
+    
 
 @app.route('/resultado-busqueda/<int:id>/', methods=['GET', 'POST'])
 @login_required_admin
@@ -326,32 +321,32 @@ def resultado(id=0):
     return render_template('Resultadodebusqueda.html')
 
 @app.route('/listar-citas')
-@login_required
+@login_required_admin
 def listarCitas():
     citas = select_citas_completo()
     return render_template('Listar_citas.html', citas = citas)
 
 @app.route('/listar-pacientes')
-@login_required
+@login_required_admin
 def listarPacientes():
     pacientes = select_pacientes_completo()
     return render_template('listar_pacientes.html', pacientes = pacientes)
 
 @app.route('/listar-medicos')
-@login_required
+@login_required_admin
 def listarMedicos():
     medicos = sql_select_medicos()
     return render_template('Listar_medico.html', medicos = medicos)
 
-@app.route('/listar-historial')#falta
-@login_required
+@app.route('/listar-historial')
+@login_required_admin
 def listarhistorial():
-    citas = select_citas_completo()
-    return render_template('Listar_citas.html', citas = citas)
+    historias = select_historial_completo()
+    return render_template('Listar_historial.html', historias = historias)
 
 
 @app.route('/registro_medico/', methods=['GET','POST'])
-@login_required
+#@login_required_admin
 def registro_medico():
     form = Registro_medicos( request.form )
     try:
@@ -407,7 +402,7 @@ def registro_medico():
 
 
 @app.route('/actualizar-medico/', methods=['GET','POST','PUT'])
-@login_required
+@login_required_admin
 def actualizar_medico():
     form = Registro_medicos( request.form )
     try:
@@ -430,7 +425,7 @@ def actualizar_medico():
         return render_template('actualizar_medico.html', form=form)
 
 @app.route('/actualizar-paciente/', methods=['GET','POST','PUT'])
-@login_required
+@login_required_admin
 def edit_usuario():
     form = Registro_usuario( request.form )
     try:
@@ -453,7 +448,7 @@ def edit_usuario():
         return render_template('actualizar_paciente.html')
 
 @app.route('/actualizar-citas/', methods=['GET','POST'])
-@login_required
+@login_required_admin
 def actualizar_citas():
     form = Registrar_cita( request.form )
     if request.method == 'POST':
@@ -477,7 +472,7 @@ def actualizar_citas():
     return render_template('registrar_citas.html', form=form)
 
 @app.route('/borrar-medicos/', methods=['GET','POST'])
-@login_required
+@login_required_admin
 def borrar_medicos():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -488,7 +483,7 @@ def borrar_medicos():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-pacientes/', methods=['GET','POST'])
-@login_required
+@login_required_admin
 def borrar_pacientes():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -499,7 +494,7 @@ def borrar_pacientes():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-citas/', methods=['GET','POST'])
-@login_required
+@login_required_admin
 def borrar_citas():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -508,6 +503,105 @@ def borrar_citas():
         flash('Cita Borrada')
         return render_template('borrar.html', form=form)
     return render_template('borrar.html', form=form)
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect( url_for( 'index' ) )
+
+@app.route('/buscador-citas/<int:id>/', methods=['GET','POST'])
+@app.route('/buscador-citas', methods=['GET','POST'])
+# @login_required or login_required_admin
+def buscador_citas(id=0):
+    citas = sql_citas_id()
+    lista_citas = [ cita for cita in citas if cita['ID_Medico'] == id ]
+    if len(lista_citas)>0:
+        return render_template('buscador-citas.html', lista_citas = lista_citas)
+    else: 
+        lista_citas = [ cita for cita in citas if cita['ID_Paciente'] == id ]
+        return render_template('buscador-citas.html', lista_citas = lista_citas)
+
+@app.route('/historial/<int:id>/', methods=['GET','POST'])
+@app.route('/historial/', methods=['GET', 'POST'])#no esta probado ---> probar
+def method_name(id=0):
+    historias = dic_historial()
+    citas = sql_citas_id()
+    lista_citas = [ cita for cita in citas if cita['ID_Medico'] == id ]
+    lista_historias = [ historia for historia in historias if historia['ID_Cita'] == lista_citas[0] ]
+    if len(lista_historias)>0:
+        return render_template('historial.html', lista_historias = lista_historias, lista_citas = lista_citas)
+    else: 
+        lista_citas = [ cita for cita in citas if cita['ID_Paciente'] == id ]
+        lista_historias = [ historia for historia in historias if historia['ID_Cita'] == lista_citas[0] ]
+        return render_template('historial.html', lista_historias = lista_historias, lista_citas = lista_citas)
+
+@app.route('/registro-historial', methods=['GET', 'POST'])
+@login_required_admin
+def historial():
+    form = Historial( request.form )
+    try:
+        if request.method == 'POST':   
+            id_cita = request.form['id_cita']
+            comentarios = request.form['comentarios']
+
+            error = None
+            db = get_db()
+
+            if not id_cita:
+                error = "Id Cita Requerido."
+                flash(error)
+            if error is not None:
+                return render_template('registro-historial.html', form=form)
+            else:
+                insert_historial(id_cita,comentarios)
+                flash('Historial Agregado')
+                form=Historial()
+                return render_template('registro-historial.html', form=form)
+        return render_template('registro-historial.html', form=form)
+    except:
+        flash("Ha ocurrido un error, intentalo de nuevo")    
+        return render_template('registro-historial.html')
+    
+@app.route('/actualizar-historial', methods=['GET', 'POST'])
+@login_required_admin
+def edit_historial():
+    form = Historial( request.form )
+    try:
+        if request.method == 'POST':   
+            id_cita = request.form['id_cita']
+            comentarios = request.form['comentarios']
+
+            error = None
+
+            if not id_cita:
+                error = "Id Cita Requerido."
+                flash(error)
+            if error is not None:
+                return render_template('registro-historial.html', form=form)
+            else:
+                edit_historial(id_cita,comentarios)
+                flash('Cambio Realizado')
+                form=Historial()
+                return render_template('registro-historial.html', form=form)
+        return render_template('registro-historial.html', form=form)
+    except:
+        flash("Ha ocurrido un error, intentalo de nuevo")    
+        return render_template('registro-historial.html')
+
+@app.route('/borrar-historial', methods=['GET', 'POST'])
+@login_required_admin
+def borrar_historial():
+    form = Borrar( request.form )
+    if request.method == 'POST':
+        id = request.form['no_id_login']
+        delete_historial(id)
+        flash('Historial Borrado')
+        return render_template('borrar.html', form=form)
+    return render_template('borrar.html', form=form)
+
+@app.route('/download')
+def download():
+    return send_file( "resources/L_medicos.pdf", as_attachment=True )
 
 
 
@@ -520,6 +614,79 @@ def sql_connection():
         return conn
     except Error:
         print(Error)
+
+def select_historial_completo():
+    sql = "SELECT * FROM historial"
+    conn = sql_connection()
+    cursorObj = conn.cursor()
+    cursorObj.execute(sql)
+    medicos = cursorObj.fetchall()
+    return medicos
+
+def delete_historial(id):
+    sql = "DELETE FROM historial WHERE  cita = '{}'".format(id)
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def edit_historial(cita, historial):
+    sql = "UPDATE historial SET cita = '{}', historial = '{}' WHERE  cita = '{}'".format(cita, historial, cita)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def insert_historial(cita, historial):
+    sql = "INSERT INTO historial (cita, historial) VALUES ('{}', '{}')".format(cita, historial)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
+
+def sql_citas_id():
+    sql = "SELECT id, motivo_cita, descripcion, fecha, hora_cita, horario_salida, estado, id_paciente, idMedico, direccion, ciudad, celular, first_time, comentarios, valoracion FROM Citas "
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    citas = cursoObj.fetchall()
+    lista_productos = [ {"ID": cita[0], "Motivo": cita[1], "Descipcion": cita[2], "Fecha": cita[3], "Hora_Inicial": cita[4], "Hora_Salida": cita[5], "Estado": cita[6], "ID_Paciente": cita[7], "ID_Medico": cita[8], "Direccion": cita[9], "Ciudad": cita[10], "Celular": cita[11], "Primera_Vez": cita[12], "Comentarios": cita[13], "Valoracion": cita[14]} for cita in citas ]
+    return lista_productos
+
+def dic_pacientes():
+    sql = "SELECT id, tipo_doc, num_doc, email, nombre_ape, tipo_persona FROM pacientes "
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    pacientes = cursoObj.fetchall()
+    lista_pacientes = [ {"ID": paciente[0], "Tipo Documento": paciente[1], "N. ID": paciente[2], "Email": paciente[3], "Nombre": paciente[4], "Regimen": paciente[5]} for paciente in pacientes ]
+    return lista_pacientes
+
+def dic_medicos():
+    sql = "SELECT id, nombre, tipo_doc, num_doc, email, especialidad FROM medico "
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    medicos = cursoObj.fetchall()
+    lista_medicos = [ {"ID": medico[0], "Nombre": medico[1], "Tipo Documento": medico[2], "N. ID": medico[3], "Email": medico[4], "Especialidad_Medico": medico[5]} for medico in medicos ]
+    return lista_medicos
+
+def dic_historial():
+    sql = "SELECT id, cita, historial FROM historial "
+    print(sql)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    historias = cursoObj.fetchall()
+    lista_historias = [ {"ID": historia[0], "ID_Cita": historia[1], "Historial": historia[2]} for historia in historias ]
+    return lista_historias
 
 def sql_delete_citas(id):
     sql = "DELETE FROM Citas WHERE id = '{}' ".format(id)
@@ -645,9 +812,18 @@ def select_pacientes_completo():
     cursorObj = conn.cursor()
     cursorObj.execute(sql)
     pacientes = cursorObj.fetchall()
-    return 
+    return pacientes
+
+def insert_admn(id, nombre, num_id, email, password, telefono):
+    sql = "INSERT INTO admin (id, nombre, num_id, email, password, telefono) VALUES ('{}', '{}', '{}', '{}', '{}', '{}')".format(id, nombre, num_id, email, password, telefono)
+    conn = sql_connection()
+    cursoObj = conn.cursor()
+    cursoObj.execute(sql)
+    conn.commit()
+    conn.close()
 
 
 #DIEGO ESTA LINEA ES NECESARIA PARA LA CERTIFICACION
 if __name__ == "__main__":
     app.run( host='127.0.0.1', port =443, ssl_context=('micertificado.pem', 'llaveprivada.pem') )
+

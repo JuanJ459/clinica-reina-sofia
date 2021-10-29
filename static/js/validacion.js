@@ -12,6 +12,18 @@ function ocultarPassword(){
     obj.type = "password";
 }
 
+
+function mostrarPasswordl(){
+    var obj = document.getElementById("password_login");
+    obj.type = "text";
+}
+
+function ocultarPasswordl(){
+    var obj = document.getElementById("password_login");
+    obj.type = "password";
+}
+
+
 function mostrarPassword2(){
     var obj = document.getElementById("conPassword");
     obj.type = "text";

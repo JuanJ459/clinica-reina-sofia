@@ -1,4 +1,4 @@
-from wtforms import Form, StringField, PasswordField, BooleanField, SelectField, SubmitField, validators, IntegerField, DateField, TimeField
+from wtforms import Form, StringField, PasswordField, BooleanField, SelectField, SubmitField, validators, IntegerField, DateField, TimeField, TextAreaField
 from wtforms.fields.html5 import EmailField
 
 class Registro_usuario(Form):
@@ -108,7 +108,7 @@ class Registro_medicos(Form):
         validators.DataRequired(), 
         validators.Length(min=8,max=25) 
     ])
-    especialidad = IntegerField('Especialidad *Mirar tabla especialidad: ', 
+    especialidad = IntegerField('Especialidad: ', 
     [ 
         validators.DataRequired(), 
 
@@ -122,3 +122,25 @@ class Borrar(Form):
 
     ] )
     registro = SubmitField('Borrar')
+
+class Historial(Form):
+    id_cita = IntegerField('No. de Cita: ', 
+    [ 
+        validators.DataRequired(), 
+
+    ] )
+    comentarios = TextAreaField('Ingresa Historial: ', 
+    [ 
+        validators.DataRequired(), 
+        validators.Length(min=4)
+    ] )
+
+    registro = SubmitField('Registrar')
+
+class BuscarD(Form):
+    id = IntegerField('ID a Buscar: ', 
+    [ 
+        validators.DataRequired(), 
+
+    ] )
+    buscar = SubmitField('Buscar')

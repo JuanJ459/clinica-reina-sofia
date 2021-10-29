@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="robots" content="index,follow">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Historial</title>
+        <!--CDN Font awesome -->
+        <link rel='stylesheet' href="{{ url_for('static', filename='/css/font-awesome.min.css')}}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css" >
+        <script src="{{ url_for('static', filename='js/validacion.js') }}"> </script>
+    </head>
+    <body>
+
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+        <a href="/index">Inicio</a>
+        <a href="/logout">Salir de Sesión</a>
+        <figure>
+            <img src="{{ url_for('static', filename='img/logo_reina.png') }}" alt="Logo" class="logo"/>
+        </figure>
+         
+    
+        <center>
+        <section>
+            <h1>H I S T O R I A L</h1>
+        </section>
+        <br>
+        <section>
+            <p>Registra - Actualiza Historial Medico:</p>
+        </section>
+        </center>
+        <br>
+        <br>
+        <main>
+        <center>
+            <form action="" method="post" >
+                
+                {{form.id_cita.label}}
+                <br>
+                {{form.id_cita}}
+                <br>
+                <br>
+                {{form.comentarios.label}}
+                <br>
+                {{form.comentarios(placeholder="Puedes agrandar este espacio")}}
+                <br>
+                <br>
+
+                {{form.registro}}
+                
+
+
+            </form>
+        </center>
+        </main>
+        
+    </body>
+</html>
