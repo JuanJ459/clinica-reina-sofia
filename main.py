@@ -256,8 +256,7 @@ def registro_usuario():
             no_id = request.form['no_id']
             email = request.form['email']
             password = request.form['password']
-   
-   
+
             error = None
             db = get_db()
 
@@ -403,7 +402,7 @@ def registro_medico():
 
 
 @app.route('/actualizar-medico/', methods=['GET','POST','PUT'])
-@login_required_admin
+@login_required #cambio por error servidor
 def actualizar_medico():
     form = Registro_medicos( request.form )
     try:
@@ -426,7 +425,7 @@ def actualizar_medico():
         return render_template('actualizar_medico.html', form=form)
 
 @app.route('/actualizar-paciente/', methods=['GET','POST','PUT'])
-@login_required_admin
+@login_required #cambio por error servidor
 def edit_usuario():
     form = Registro_usuario( request.form )
     try:
@@ -449,7 +448,7 @@ def edit_usuario():
         return render_template('actualizar_paciente.html')
 
 @app.route('/actualizar-citas/', methods=['GET','POST'])
-@login_required_admin
+@login_required #cambio por error servidor
 def actualizar_citas():
     form = Registrar_cita( request.form )
     if request.method == 'POST':
@@ -473,7 +472,7 @@ def actualizar_citas():
     return render_template('registrar_citas.html', form=form)
 
 @app.route('/borrar-medicos/', methods=['GET','POST'])
-@login_required_admin
+@login_required #cambio por error servidor
 def borrar_medicos():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -484,7 +483,7 @@ def borrar_medicos():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-pacientes/', methods=['GET','POST'])
-@login_required_admin
+@login_required #cambio por error servidor
 def borrar_pacientes():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -495,7 +494,7 @@ def borrar_pacientes():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-citas/', methods=['GET','POST'])
-@login_required_admin
+@login_required #cambio por error servidor
 def borrar_citas():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -537,7 +536,7 @@ def method_name(id=0):
         return render_template('historial.html', lista_historias = lista_historias, lista_citas = lista_citas)
 
 @app.route('/registro-historial', methods=['GET', 'POST'])
-@login_required_admin
+@login_required #cambio por error servidor
 def historial():
     form = Historial( request.form )
     try:
@@ -564,7 +563,7 @@ def historial():
         return render_template('registro-historial.html')
     
 @app.route('/actualizar-historial', methods=['GET', 'POST'])
-@login_required_admin
+@login_required #cambio por error servidor
 def edit_historial():
     form = Historial( request.form )
     try:
@@ -590,7 +589,7 @@ def edit_historial():
         return render_template('registro-historial.html')
 
 @app.route('/borrar-historial', methods=['GET', 'POST'])
-@login_required_admin
+@login_required #cambio por error servidor
 def borrar_historial():
     form = Borrar( request.form )
     if request.method == 'POST':
