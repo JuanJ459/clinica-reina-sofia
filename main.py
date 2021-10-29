@@ -22,6 +22,15 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 #app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
 
+
+def sql_connection():
+    try:
+        conn = sqlite3.connect('dbClinica.db')
+        print("¡Conexión OK!")
+        return conn
+    except Error:
+        print(Error)
+
 def login_required(view):
     @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
     def wrapped_view(**kwargs):
@@ -324,7 +333,7 @@ def resultado(id=0):
 @login_required_admin #cambio por error servidor
 def listarCitas():
     citas = sql_citas_id()
-    return render_template('Listar_citas.html', citas = citas)
+    return render_template('listar_citas.html', citas = citas)
 
 @app.route('/listar-pacientes')
 @login_required_admin #cambio por error servidor
@@ -336,13 +345,13 @@ def listarPacientes():
 @login_required_admin #cambio por error servidor
 def listarMedicos():
     medicos = dic_medicos()
-    return render_template('Listar_medico.html', medicos = medicos)
+    return render_template('listar_medico.html', medicos = medicos)
 
 @app.route('/listar-historial')
 @login_required_admin #cambio por error servidor
 def listarhistorial():
     historias = dic_historial()
-    return render_template('Listar_historial.html', historias = historias)
+    return render_template('listar_historial.html', historias = historias)
 
 
 @app.route('/registro_medico/', methods=['GET','POST'])
@@ -607,13 +616,6 @@ def download():
 
 #funciones 
 
-def sql_connection():
-    try:
-        conn = sqlite3.connect('dbClinica.db')
-        print("¡Conexión OK!")
-        return conn
-    except Error:
-        print(Error)
 
 def select_historial_completo():
     sql = "SELECT * FROM historial"
