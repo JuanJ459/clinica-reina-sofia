@@ -25,19 +25,19 @@ app.secret_key = os.urandom(24)
 def login_required(view):
     @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
     def wrapped_view(**kwargs):
-        if (g.user_medico is None) and (g.user is None):
+        if (g.user_medico is None) and (g.user is None) and ( g.user_admin is None ):
             return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
         return view( **kwargs )
     return wrapped_view
 
-def login_required_admin(view): #no funciona en servidores o python everywhere
-    @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
-    def wrapped_viewp(**kwargsp):
-        print("hola")
-        if g.user_admin is None:
-            return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
-        return view( **kwargsp )
-    return wrapped_viewp
+# def login_required_admin(view): #no funciona en servidores o python everywhere
+#    @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
+#    def wrapped_viewp(**kwargsp):
+#        print("hola")
+#        if g.user_admin is None:
+#            return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
+#        return view( **kwargsp )
+#    return wrapped_viewp
 
 @app.before_request
 def cargar_paciente_registrado():
@@ -304,12 +304,12 @@ def registro_usuario():
 
 @app.route('/login/administrador/', methods=['GET','POST'])
 @app.route('/administrador/', methods=['GET','POST'])
-@login_required_admin
+@login_required #cambio por error servidor
 def administrador():
     return render_template('dashboard.html')
 
 @app.route('/lista-citas/')
-@login_required_admin
+@login_required #cambio por error servidor
 def citas():
     citas = sql_citas_id()
     return render_template('listar_citas.html', citas=citas)    
@@ -321,32 +321,32 @@ def resultado(id=0):
     return render_template('Resultadodebusqueda.html')
 
 @app.route('/listar-citas')
-@login_required_admin
+@login_required #cambio por error servidor
 def listarCitas():
     citas = sql_citas_id()
     return render_template('Listar_citas.html', citas = citas)
 
 @app.route('/listar-pacientes')
-@login_required_admin
+@login_required #cambio por error servidor
 def listarPacientes():
     pacientes = dic_pacientes()
     return render_template('listar_pacientes.html', pacientes = pacientes)
 
 @app.route('/listar-medicos')
-@login_required_admin
+@login_required #cambio por error servidor
 def listarMedicos():
     medicos = dic_medicos()
     return render_template('Listar_medico.html', medicos = medicos)
 
 @app.route('/listar-historial')
-@login_required_admin
+@login_required #cambio por error servidor
 def listarhistorial():
     historias = dic_historial()
     return render_template('Listar_historial.html', historias = historias)
 
 
 @app.route('/registro_medico/', methods=['GET','POST'])
-@login_required_admin
+@login_required #cambio por error servidor
 def registro_medico():
     form = Registro_medicos( request.form )
     try:
