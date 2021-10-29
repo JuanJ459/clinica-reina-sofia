@@ -22,30 +22,22 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 #app.config['SECRET_KEY'] = '7110c8ae51a4b5af97be6534caef90e4bb9bdcb3380af008f90b23a5d1616bf319bc298105da20fe'
 
-def sql_connection():
-    try:
-        conn = sqlite3.connect('dbClinica.db')
-        print("¡Conexión OK!")
-        return conn
-    except Error:
-        print(Error)
-        
 def login_required(view):
     @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
     def wrapped_view(**kwargs):
-        if (g.user_medico is None) and (g.user is None) and ( g.user_admin is None ):
+        if (g.user_medico is None) and (g.user is None):
             return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
         return view( **kwargs )
     return wrapped_view
 
-# def login_required_admin(view): #no funciona en servidores o python everywhere
-#    @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
-#    def wrapped_viewp(**kwargsp):
-#        print("hola")
-#        if g.user_admin is None:
-#            return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
-#        return view( **kwargsp )
-#    return wrapped_viewp
+def login_required_admin(view): #no funciona en servidores o python everywhere
+    @functools.wraps( view ) # toma una función utilizada en un decorador y añadir la funcionalidad de copiar el nombre de la función.
+    def wrapped_viewp(**kwargsp):
+        print("hola")
+        if g.user_admin is None:
+            return redirect( url_for( 'login' ) ) # si no tiene datos, lo envío a que se loguee
+        return view( **kwargsp )
+    return wrapped_viewp
 
 @app.before_request
 def cargar_paciente_registrado():
@@ -76,7 +68,7 @@ def cargar_medico_registrado():
     print('g.user_medico:', g.user_medico)  
 
 
-@app.before_request
+@app.before_request 
 def cargar_administrador_registrado():
     print("entro en el before_request_administrador")
     id_administrador = session.get('id_administrador')
@@ -86,7 +78,7 @@ def cargar_administrador_registrado():
         g.user_admin = get_db().execute(
                 'SELECT id, nombre, num_id, email, password, telefono FROM admin WHERE id = ?'
                 ,
-                (id_administrador,)
+               (id_administrador,)
             ).fetchone()
     print('g.user_admin:', g.user_admin)    
 
@@ -312,12 +304,12 @@ def registro_usuario():
 
 @app.route('/login/administrador/', methods=['GET','POST'])
 @app.route('/administrador/', methods=['GET','POST'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def administrador():
     return render_template('dashboard.html')
 
 @app.route('/lista-citas/')
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def citas():
     citas = sql_citas_id()
     return render_template('listar_citas.html', citas=citas)    
@@ -329,32 +321,32 @@ def resultado(id=0):
     return render_template('Resultadodebusqueda.html')
 
 @app.route('/listar-citas')
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def listarCitas():
     citas = sql_citas_id()
     return render_template('Listar_citas.html', citas = citas)
 
 @app.route('/listar-pacientes')
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def listarPacientes():
     pacientes = dic_pacientes()
     return render_template('listar_pacientes.html', pacientes = pacientes)
 
 @app.route('/listar-medicos')
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def listarMedicos():
     medicos = dic_medicos()
     return render_template('Listar_medico.html', medicos = medicos)
 
 @app.route('/listar-historial')
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def listarhistorial():
     historias = dic_historial()
     return render_template('Listar_historial.html', historias = historias)
 
 
 @app.route('/registro_medico/', methods=['GET','POST'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def registro_medico():
     form = Registro_medicos( request.form )
     try:
@@ -410,7 +402,7 @@ def registro_medico():
 
 
 @app.route('/actualizar-medico/', methods=['GET','POST','PUT'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def actualizar_medico():
     form = Registro_medicos( request.form )
     try:
@@ -433,7 +425,7 @@ def actualizar_medico():
         return render_template('actualizar_medico.html', form=form)
 
 @app.route('/actualizar-paciente/', methods=['GET','POST','PUT'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def edit_usuario():
     form = Registro_usuario( request.form )
     try:
@@ -456,7 +448,7 @@ def edit_usuario():
         return render_template('actualizar_paciente.html')
 
 @app.route('/actualizar-citas/', methods=['GET','POST'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def actualizar_citas():
     form = Registrar_cita( request.form )
     if request.method == 'POST':
@@ -480,7 +472,7 @@ def actualizar_citas():
     return render_template('registrar_citas.html', form=form)
 
 @app.route('/borrar-medicos/', methods=['GET','POST'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def borrar_medicos():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -491,7 +483,7 @@ def borrar_medicos():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-pacientes/', methods=['GET','POST'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def borrar_pacientes():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -502,7 +494,7 @@ def borrar_pacientes():
     return render_template('borrar.html', form=form)
 
 @app.route('/borrar-citas/', methods=['GET','POST'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def borrar_citas():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -544,7 +536,7 @@ def method_name(id=0):
         return render_template('historial.html', lista_historias = lista_historias, lista_citas = lista_citas)
 
 @app.route('/registro-historial', methods=['GET', 'POST'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def historial():
     form = Historial( request.form )
     try:
@@ -571,7 +563,7 @@ def historial():
         return render_template('registro-historial.html')
     
 @app.route('/actualizar-historial', methods=['GET', 'POST'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def edit_historial():
     form = Historial( request.form )
     try:
@@ -597,7 +589,7 @@ def edit_historial():
         return render_template('registro-historial.html')
 
 @app.route('/borrar-historial', methods=['GET', 'POST'])
-@login_required #cambio por error servidor
+@login_required_admin #cambio por error servidor
 def borrar_historial():
     form = Borrar( request.form )
     if request.method == 'POST':
@@ -615,6 +607,13 @@ def download():
 
 #funciones 
 
+def sql_connection():
+    try:
+        conn = sqlite3.connect('dbClinica.db')
+        print("¡Conexión OK!")
+        return conn
+    except Error:
+        print(Error)
 
 def select_historial_completo():
     sql = "SELECT * FROM historial"
